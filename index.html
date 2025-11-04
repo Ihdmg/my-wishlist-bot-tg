@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой Виш-Лист с Леви</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #1e1e1e;
+            color: white;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
+        /* Контейнер для Леви */
+        .levi-container {
+            margin: 20px auto;
+            padding: 15px;
+            background: #2d2d2d;
+            border-radius: 15px;
+            display: inline-block;
+        }
+
+        /* Пиксельный Леви */
+        .pixel-levi {
+            width: 120px;
+            height: 160px;
+            margin: 0 auto;
+            position: relative;
+            image-rendering: pixelated;
+        }
+
+        .pixel-levi::before {
+            content: "";
+            position: absolute;
+            width: 120px;
+            height: 160px;
+            background: 
+                /* Волосы (черные) */
+                linear-gradient(#333 10px, transparent 10px) 40px 0px / 40px 10px no-repeat,
+                linear-gradient(#333 10px, transparent 10px) 30px 10px / 60px 10px no-repeat,
+                linear-gradient(#333 10px, transparent 10px) 20px 20px / 80px 10px no-repeat,
+                linear-gradient(#333 10px, transparent 10px) 20px 30px / 80px 10px no-repeat,
+                /* Лицо */
+                linear-gradient(#f9d2b6 20px, transparent 20px) 40px 40px / 40px 20px no-repeat,
+                /* Челка */
+                linear-gradient(#333 10px, transparent 10px) 30px 40px / 20px 10px no-repeat,
+                linear-gradient(#333 10px, transparent 10px) 30px 50px / 10px 10px no-repeat,
+                /* Глаза */
+                linear-gradient(#333 4px, transparent 4px) 50px 50px / 4px 4px no-repeat,
+                linear-gradient(#333 4px, transparent 4px) 66px 50px / 4px 4px no-repeat,
+                /* Рубашка */
+                linear-gradient(#8b0000 30px, transparent 30px) 35px 60px / 50px 30px no-repeat,
+                /* Рукава */
+                linear-gradient(#8b0000 20px, transparent 20px) 20px 60px / 20px 20px no-repeat,
+                linear-gradient(#8b0000 20px, transparent 20px) 80px 60px / 20px 20px no-repeat,
+                /* Шарф */
+                linear-gradient(#ddd 10px, transparent 10px) 40px 90px / 40px 10px no-repeat,
+                /* Ноги */
+                linear-gradient(#333 40px, transparent 40px) 45px 100px / 10px 40px no-repeat,
+                linear-gradient(#333 40px, transparent 40px) 65px 100px / 10px 40px no-repeat;
+        }
+
+        .item {
+            background: #2d2d2d;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #444;
+            text-align: left;
+            position: relative;
+        }
+        
+        /* Стиль для взятых товаров */
+        .item.taken {
+            background: #1a3a1a;
+            border-color: #2d6b2d;
+            opacity: 0.7;
+        }
+        
+        .taken-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4444;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .item-content {
+            flex-grow: 1;
+        }
+        
+        .item-title {
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+        
+        .item-description {
+            color: #ccc;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .item-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .item-button {
+            background-color: #0088cc;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 12px;
+            display: inline-block;
+        }
+
+        .wb-button {
+            background-color: #7b3fa1;
+        }
+        
+        .ozon-button {
+            background-color: #005bff;
+        }
+        
+        .goldapple-button {
+            background-color: #d4af37;
+        }
+
+        .signature {
+            margin-top: 20px;
+            color: #888;
+            font-size: 12px;
+        }
+        
+        .instructions {
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🗡️ Мой Виш-Лист</h1>
+
+    <!-- Пиксельный Леви -->
+    <div class="levi-container">
+        <div class="pixel-levi"></div>
+        <div style="margin-top: 10px; color: #ccc;">Капитан Леви следит за порядком</div>
+    </div>
+
+    <div class="instructions">
+        <strong>💡 Как пользоваться:</strong><br>
+        • Если товар уже кто-то взял - он будет с красной пометкой "ВЗЯТО"<br>
+        • Чтобы отметить товар как взятый - просто добавь класс "taken" к блоку с классом "item"
+    </div>
+
+    <!-- ТВОИ ТОВАРЫ -->
+
+    <!-- КНИГИ -->
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">SCHOLASTIC Harry Potter and the Prisoner of Azkaban (MinaLima Edition)</div>
+            <div class="item-description">Книга Гарри Поттер с иллюстрациями MinaLima</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/206846864/detail.aspx?size=332060339" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">AXIS-Y Сыворотка для лица осветляющая против пигментации</div>
+            <div class="item-description">Корейская сыворотка для осветления кожи</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/247189788/detail.aspx?size=387243151" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Round Lab Увлажняющий крем для лица с берёзовым соком</div>
+            <div class="item-description">Увлажняющий крем с березовым соком</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/213410093/detail.aspx?size=340930617" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Round Lab Питательная сыворотка с соей антивозрастная</div>
+            <div class="item-description">Антивозрастная сыворотка с соей</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/212962091/detail.aspx?size=340393848" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Round Lab Солнцезащитный крем стик для лица</div>
+            <div class="item-description">Солнцезащитный стик</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/332727803/detail.aspx?size=497795807" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Игра престолов. Цикл "Песнь льда и огня". Комплект 6 книг</div>
+            <div class="item-description">Полный комплект книг Игры Престолов</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/429114327/detail.aspx?size=610438937" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Amazon Восстановленная Электронная книга Kindle 6" 8Gb с подсветкой</div>
+            <div class="item-description">Электронная книга Kindle</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/275151555/detail.aspx?size=424269770" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">AXIS-Y Лимитированный подарочный набор бестселлеров бренда</div>
+            <div class="item-description">Подарочный набор Axis-Y</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/306440040/detail.aspx?size=464717163" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ПРИМЕР ВЗЯТОГО ТОВАРА -->
+    <div class="item taken">
+        <div class="taken-badge">ВЗЯТО</div>
+        <div class="item-content">
+            <div class="item-title">Funko Леви Аккерман брелок (Levi Ackerman)</div>
+            <div class="item-description">Брелок Леви Аккерман</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/57430350/detail.aspx?size=104135902" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Черный обелиск</div>
+            <div class="item-description">Книга Эрих Мария Ремарк</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/2281424/detail.aspx?size=9567703" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Дух мадам Краул и другие таинственные истории</div>
+            <div class="item-description">Сборник мистических историй</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/420190642/detail.aspx?size=600656832" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Госпожа Бовари</div>
+            <div class="item-description">Классический роман</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/31299053/detail.aspx?size=68237593" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">К югу от границы, на запад от солнца. Х. Мураками</div>
+            <div class="item-description">Роман Мураками</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/5893520/detail.aspx?size=21038460" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Страна Чудес без тормозов и Конец Света</div>
+            <div class="item-description">Роман Мураками</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/5840988/detail.aspx?size=20884523" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Мужчины без женщин</div>
+            <div class="item-description">Сборник рассказов Мураками</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/13944585/detail.aspx?size=41829183" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Удушье</div>
+            <div class="item-description">Книга Чака Паланика</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/40409265/detail.aspx?size=81603658" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Собор Парижской Богоматери</div>
+            <div class="item-description">Классический роман Виктора Гюго</div>
+            <div class="item-links">
+                <a href="https://www.wildberries.ru/catalog/119966641/detail.aspx?size=212548424" class="item-button wb-button" target="_blank">Wildberries</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- OZON ССЫЛКИ -->
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Товар OZON 1</div>
+            <div class="item-description">Ссылка на OZON</div>
+            <div class="item-links">
+                <a href="https://ozon.ru/t/Ltogmno" class="item-button ozon-button" target="_blank">OZON</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Товар OZON 2</div>
+            <div class="item-description">Ссылка на OZON</div>
+            <div class="item-links">
+                <a href="https://ozon.ru/t/HUdFaOS" class="item-button ozon-button" target="_blank">OZON</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">Товар OZON 3</div>
+            <div class="item-description">Ссылка на OZON</div>
+            <div class="item-links">
+                <a href="https://ozon.ru/t/WN2Pw75" class="item-button ozon-button" target="_blank">OZON</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- GOLD APPLE -->
+    <div class="item">
+        <div class="item-content">
+            <div class="item-title">SKIN 1004 Madagascar Centella Tone Brightening Capsule Ampoule</div>
+            <div class="item-description">Осветляющая ампула</div>
+            <div class="item-links">
+                <a href="https://goldapple.ru/19000137120-madagascar-centella-tone-brightening-capsule-ampoule" class="item-button goldapple-button" target="_blank">Gold Apple</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="signature">
+        Сделано с ❤️ | Чтобы отметить товар как "ВЗЯТО" - добавь класс "taken" к товару
+    </div>
+
+</body>
+</html>

@@ -17,11 +17,37 @@
             color: white;
             padding: 15px;
             text-align: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Снегопад */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: #e94560;
+            font-size: 14px;
+            animation: snowfall linear infinite;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        
+        @keyframes snowfall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
         }
         
         .container {
             max-width: 400px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
         
         /* Леви с сердечками */
@@ -82,11 +108,13 @@
             text-align: left;
             border: 1px solid #333;
             position: relative;
+            transition: all 0.3s ease;
         }
         
         .item.taken {
             background: #331111;
             border-color: #ff4444;
+            opacity: 0.7;
         }
         
         .item.taken .item-title {
@@ -97,6 +125,7 @@
         .item.taken .item-link {
             background: #666;
             pointer-events: none;
+            opacity: 0.6;
         }
         
         .item-title {
@@ -129,6 +158,7 @@
             font-size: 12px;
             border: none;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
         
         .wb-button {
@@ -148,9 +178,15 @@
             width: 100%;
             text-align: center;
             margin-top: 5px;
+            font-weight: bold;
         }
         
-        .item-link:hover, .take-btn:hover {
+        .take-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        
+        .item-link:hover, .take-btn:hover:not(:disabled) {
             opacity: 0.9;
             transform: scale(1.02);
         }
@@ -163,6 +199,9 @@
     </style>
 </head>
 <body>
+    <!-- Снегопад -->
+    <div id="snowfall"></div>
+    
     <div class="container">
         <!-- Леви с сердечками -->
         <div class="levi-container">
@@ -176,265 +215,313 @@
         </div>
         
         <div style="margin-bottom: 15px; color: #ccc; font-size: 14px;">
-            Если что не обязательно с подарками.
+            Капитан Леви следит за виш-листом
         </div>
         
         <!-- Инструкция -->
         <div class="instruction">
-            <strong>💡 Инструкция:</strong> Нажимай "ВЗЯТО" под товаром чтобы отметить его красным
+            <strong>💡 Инструкция:</strong> Нажимай "ВЗЯТО" под товаром чтобы отметить его для всех
         </div>
         
         <!-- Список товаров -->
         
         <!-- Косметика -->
-        <div class="item">
+        <div class="item" data-id="1">
             <div class="item-title">SCHOLASTIC Harry Potter and the Prisoner of Azkaban (MinaLima Edition)</div>
             <div class="item-category">Книги</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/206846864/detail.aspx?size=332060339" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="1">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="2">
             <div class="item-title">AXIS-Y Сыворотка для лица осветляющая против пигментации</div>
             <div class="item-category">Косметика</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/247189788/detail.aspx?size=387243151" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="2">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="3">
             <div class="item-title">Round Lab Увлажняющий крем для лица с берёзовым соком</div>
             <div class="item-category">Косметика</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/213410093/detail.aspx?size=340930617" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="3">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="4">
             <div class="item-title">Round Lab Питательный сыворотка с соей антивозрастная</div>
             <div class="item-category">Косметика</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/212962091/detail.aspx?size=340393848" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="4">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="5">
             <div class="item-title">Round Lab Солнцезащитный крем стик для лица</div>
             <div class="item-category">Косметика</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/332727803/detail.aspx?size=497795807" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="5">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="6">
             <div class="item-title">Игра престолов. Цикл "Песнь льда и огня". Комплект 6 книг</div>
             <div class="item-category">Книги</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/429114327/detail.aspx?size=610438937" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="6">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="7">
             <div class="item-title">Amazon Восстановленная Электронная книга Kindle 6" 8Gb с подсветкой</div>
             <div class="item-category">Электроника</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/275151555/detail.aspx?size=424269770" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="7">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="8">
             <div class="item-title">AXIS-Y Лимитированный подарочный набор бестселлеров бренда</div>
             <div class="item-category">Косметика</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/306440040/detail.aspx?size=464717163" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="8">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="9">
             <div class="item-title">Funko Леви Аккерман брелок (Levi Ackerman)</div>
             <div class="item-category">Сувениры</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/57430350/detail.aspx?size=104135902" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="9">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="10">
             <div class="item-title">Черный обелиск</div>
             <div class="item-category">Книги</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/2281424/detail.aspx?size=9567703" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="10">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="11">
             <div class="item-title">Дух мадам Краул и другие таинственные истории</div>
             <div class="item-category">Книги</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/420190642/detail.aspx?size=600656832" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="11">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="12">
             <div class="item-title">Госпожа Бовари</div>
             <div class="item-category">Книги</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/31299053/detail.aspx?size=68237593" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="12">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="13">
             <div class="item-title">К югу от границы, на запад от солнца. Х. Мураками. Роман</div>
             <div class="item-category">Книги</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/5893520/detail.aspx?size=21038460" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="13">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="14">
             <div class="item-title">Страна Чудес без тормозов и Конец Света</div>
             <div class="item-category">Книги</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/5840988/detail.aspx?size=20884523" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="14">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="15">
             <div class="item-title">Мужчины без женщин</div>
             <div class="item-category">Книги</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/13944585/detail.aspx?size=41829183" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="15">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="16">
             <div class="item-title">Удушье</div>
             <div class="item-category">Книги</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/40409265/detail.aspx?size=81603658" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="16">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="17">
             <div class="item-title">Собор Парижской Богоматери. В. Гюго. Книги романы</div>
             <div class="item-category">Книги</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/119966641/detail.aspx?size=212548424" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="17">ВЗЯТО</button>
         </div>
 
         <!-- OZON товары -->
-        <div class="item">
+        <div class="item" data-id="18">
             <div class="item-title">Товар OZON 1</div>
             <div class="item-category">OZON</div>
             <div class="item-links">
                 <a href="https://ozon.ru/t/Ltogmno" class="item-link ozon-button" target="_blank">OZON</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="18">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="19">
             <div class="item-title">Товар OZON 2</div>
             <div class="item-category">OZON</div>
             <div class="item-links">
                 <a href="https://ozon.ru/t/HUdFaOS" class="item-link ozon-button" target="_blank">OZON</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="19">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="20">
             <div class="item-title">Товар OZON 3</div>
             <div class="item-category">OZON</div>
             <div class="item-links">
                 <a href="https://ozon.ru/t/WN2Pw75" class="item-link ozon-button" target="_blank">OZON</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="20">ВЗЯТО</button>
         </div>
 
         <!-- Gold Apple товары -->
-        <div class="item">
+        <div class="item" data-id="21">
             <div class="item-title">SKIN 1004 madagascar centella tone brightening capsule ampoule</div>
             <div class="item-category">Косметика</div>
             <div class="item-links">
                 <a href="https://goldapple.ru/19000137120-madagascar-centella-tone-brightening-capsule-ampoule" class="item-link goldapple-button" target="_blank">Gold Apple</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="21">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="22">
             <div class="item-title">SOL DE JANEIRO Набор по уходу за телом Delícia Drench Jet Set</div>
             <div class="item-category">Косметика</div>
             <div class="item-links">
                 <a href="https://www.wildberries.ru/catalog/MPL393662/detail.aspx" class="item-link wb-button" target="_blank">Wildberries</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="22">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="23">
             <div class="item-title">DIOR diorshow 5 couleurs</div>
             <div class="item-category">Косметика</div>
             <div class="item-links">
                 <a href="https://goldapple.ru/19000199697-diorshow-5-couleurs" class="item-link goldapple-button" target="_blank">Gold Apple</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="23">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="24">
             <div class="item-title">PAYOT calendrier de l'avent</div>
             <div class="item-category">Косметика</div>
             <div class="item-links">
                 <a href="https://goldapple.ru/19000324907-calendrier-de-l-avent" class="item-link goldapple-button" target="_blank">Gold Apple</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="24">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="25">
             <div class="item-title">GIVENCHY prisme libre</div>
             <div class="item-category">Косметика</div>
             <div class="item-links">
                 <a href="https://goldapple.ru/19000313343-prisme-libre" class="item-link goldapple-button" target="_blank">Gold Apple</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="25">ВЗЯТО</button>
         </div>
 
-        <div class="item">
+        <div class="item" data-id="26">
             <div class="item-title">PAYOT calendrier de l'avent (версия 2)</div>
             <div class="item-category">Косметика</div>
             <div class="item-links">
                 <a href="https://goldapple.ru/19000450874-calendrier-de-l-avent" class="item-link goldapple-button" target="_blank">Gold Apple</a>
             </div>
-            <button class="item-link take-btn" onclick="takeItem(this)">ВЗЯТО</button>
+            <button class="item-link take-btn" onclick="takeItem(this)" data-id="26">ВЗЯТО</button>
         </div>
 
         <div class="footer">
-            тут хз
+            🗡️ Levi's Wish List
         </div>
     </div>
 
     <script>
+        // Снегопад
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.innerHTML = '❄';
+            snowflake.style.left = Math.random() * 100 + 'vw';
+            snowflake.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            snowflake.style.fontSize = (Math.random() * 10 + 8) + 'px';
+            snowflake.style.opacity = Math.random() * 0.5 + 0.3;
+            document.getElementById('snowfall').appendChild(snowflake);
+            
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+        
+        // Запускаем снегопад
+        setInterval(createSnowflake, 100);
+        
+        // Сохранение состояния в LocalStorage
+        function saveTakenState() {
+            const takenItems = [];
+            document.querySelectorAll('.item.taken').forEach(item => {
+                takenItems.push(item.getAttribute('data-id'));
+            });
+            localStorage.setItem('takenItems', JSON.stringify(takenItems));
+        }
+        
+        function loadTakenState() {
+            const takenItems = JSON.parse(localStorage.getItem('takenItems') || '[]');
+            takenItems.forEach(id => {
+                const item = document.querySelector(`.item[data-id="${id}"]`);
+                if (item) {
+                    item.classList.add('taken');
+                    const button = item.querySelector('.take-btn');
+                    button.textContent = 'УЖЕ ВЗЯТО';
+                    button.disabled = true;
+                }
+            });
+        }
+        
         function takeItem(button) {
             const item = button.closest('.item');
+            const itemId = item.getAttribute('data-id');
+            
             item.classList.add('taken');
             button.textContent = 'УЖЕ ВЗЯТО';
-            button.style.background = '#666';
+            button.disabled = true;
+            
+            saveTakenState();
         }
+        
+        // Загружаем состояние при загрузке страницы
+        document.addEventListener('DOMContentLoaded', loadTakenState);
     </script>
 </body>
 </html>

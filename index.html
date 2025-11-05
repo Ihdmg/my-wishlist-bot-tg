@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Виш-Лист с Леви</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -12,187 +13,87 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
             color: white;
-            padding: 15px;
+            padding: 20px;
             text-align: center;
+            min-height: 100vh;
             position: relative;
             overflow-x: hidden;
         }
-        
-        /* === НАЧАЛО НОВОЙ КОШКИ И МЫШКИ === */
-        .cat-container {
+
+        /* Анимированный фон */
+        body::before {
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 1000;
-            pointer-events: none;
-            width: 100vw;
-            height: 100vh;
-        }
-
-        .pixel-cat {
-            width: 40px;
-            height: 30px;
-            image-rendering: pixelated;
-            position: absolute;
+            width: 100%;
+            height: 100%;
             background: 
-                /* Тело кошки - оранжевый с растяжением */
-                linear-gradient(#ff8c00 12px, transparent 12px) 10px 8px / 20px 12px no-repeat,
-                /* Голова */
-                linear-gradient(#ff8c00 10px, transparent 10px) 15px 2px / 10px 10px no-repeat,
-                /* Уши */
-                linear-gradient(#ff8c00 6px, transparent 6px) 12px 0px / 6px 6px no-repeat,
-                linear-gradient(#ff8c00 6px, transparent 6px) 22px 0px / 6px 6px no-repeat,
-                /* Глаза - злые когда бежит */
-                linear-gradient(#ff0000 3px, transparent 3px) 17px 5px / 3px 3px no-repeat,
-                linear-gradient(#ff0000 3px, transparent 3px) 20px 5px / 3px 3px no-repeat,
-                /* Лапы бегущие */
-                linear-gradient(#ff8c00 8px, transparent 8px) 5px 18px / 6px 8px no-repeat,
-                linear-gradient(#ff8c00 8px, transparent 8px) 29px 18px / 6px 8px no-repeat;
-            animation: catChase 15s ease-in-out infinite;
-            transform-origin: center;
+                radial-gradient(circle at 20% 80%, rgba(233, 69, 96, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 136, 204, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(123, 63, 161, 0.05) 0%, transparent 50%);
+            animation: backgroundShift 20s ease-in-out infinite;
+            z-index: -1;
         }
 
-        .pixel-mouse {
-            width: 20px;
-            height: 15px;
-            image-rendering: pixelated;
-            position: absolute;
-            background: 
-                /* Тело мышки - серый */
-                linear-gradient(#666 8px, transparent 8px) 6px 4px / 8px 8px no-repeat,
-                /* Голова испуганная */
-                linear-gradient(#666 6px, transparent 6px) 8px 0px / 6px 6px no-repeat,
-                /* Уши торчком */
-                linear-gradient(#666 3px, transparent 3px) 7px -1px / 3px 3px no-repeat,
-                linear-gradient(#666 3px, transparent 3px) 12px -1px / 3px 3px no-repeat,
-                /* Глаза испуганные */
-                linear-gradient(#000 2px, transparent 2px) 9px 2px / 2px 2px no-repeat,
-                linear-gradient(#000 2px, transparent 2px) 11px 2px / 2px 2px no-repeat,
-                /* Хвост дрожащий */
-                linear-gradient(#666 10px, transparent 10px) 0px 6px / 2px 10px no-repeat;
-            animation: mouseRun 15s ease-in-out infinite;
+        @keyframes backgroundShift {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
         }
 
-        @keyframes catChase {
-            0% { 
-                transform: translate(0, 0) scaleX(1);
-                background-size: 20px 12px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 6px 8px, 6px 8px;
-            }
-            10% { 
-                transform: translate(100px, 50px) scaleX(1);
-                background-size: 25px 8px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 8px 6px, 8px 6px;
-            }
-            20% { 
-                transform: translate(200px, 100px) scaleX(1);
-                background-size: 20px 12px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 6px 8px, 6px 8px;
-            }
-            30% { 
-                transform: translate(calc(100vw - 100px), 150px) scaleX(-1);
-                background-size: 25px 8px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 8px 6px, 8px 6px;
-            }
-            40% { 
-                transform: translate(calc(100vw - 200px), 200px) scaleX(-1);
-                background-size: 20px 12px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 6px 8px, 6px 8px;
-            }
-            50% { 
-                transform: translate(calc(100vw - 100px), calc(100vh - 100px)) scaleX(-1);
-                background-size: 25px 8px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 8px 6px, 8px 6px;
-            }
-            60% { 
-                transform: translate(200px, calc(100vh - 150px)) scaleX(1);
-                background-size: 20px 12px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 6px 8px, 6px 8px;
-            }
-            70% { 
-                transform: translate(100px, calc(100vh - 200px)) scaleX(1);
-                background-size: 25px 8px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 8px 6px, 8px 6px;
-            }
-            80% { 
-                transform: translate(50px, 100px) scaleX(1);
-                background-size: 20px 12px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 6px 8px, 6px 8px;
-            }
-            90% { 
-                transform: translate(150px, 50px) scaleX(1);
-                background-size: 25px 8px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 8px 6px, 8px 6px;
-            }
-            100% { 
-                transform: translate(0, 0) scaleX(1);
-                background-size: 20px 12px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 6px 8px, 6px 8px;
-            }
+        /* Парящие частицы */
+        .particle {
+            position: fixed;
+            background: rgba(233, 69, 96, 0.1);
+            border-radius: 50%;
+            animation: floatParticle 15s infinite linear;
+            z-index: -1;
         }
 
-        @keyframes mouseRun {
-            0% { 
-                transform: translate(30px, 30px) scaleX(1);
-                opacity: 1;
-            }
-            15% { 
-                transform: translate(130px, 80px) scaleX(1);
-                opacity: 0.8;
-            }
-            25% { 
-                transform: translate(230px, 130px) scaleX(1);
-                opacity: 1;
-            }
-            35% { 
-                transform: translate(calc(100vw - 130px), 180px) scaleX(-1);
-                opacity: 0.6;
-            }
-            45% { 
-                transform: translate(calc(100vw - 230px), 230px) scaleX(-1);
-                opacity: 1;
-            }
-            55% { 
-                transform: translate(calc(100vw - 130px), calc(100vh - 130px)) scaleX(-1);
-                opacity: 0.7;
-            }
-            65% { 
-                transform: translate(230px, calc(100vh - 180px)) scaleX(1);
-                opacity: 1;
-            }
-            75% { 
-                transform: translate(130px, calc(100vh - 230px)) scaleX(1);
-                opacity: 0.5;
-            }
-            85% { 
-                transform: translate(80px, 130px) scaleX(1);
-                opacity: 1;
-            }
-            95% { 
-                transform: translate(180px, 80px) scaleX(1);
-                opacity: 0.8;
-            }
-            100% { 
-                transform: translate(30px, 30px) scaleX(1);
-                opacity: 1;
-            }
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh) translateX(0) scale(0); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.1; }
+            100% { transform: translateY(-100px) translateX(100px) scale(1); opacity: 0; }
         }
-        /* === КОНЕЦ НОВОЙ КОШКИ И МЫШКИ === */
-        
+
         .container {
-            max-width: 400px;
+            max-width: 450px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
         
         /* Леви с сердечками */
+        .levi-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px auto;
+            border: 1px solid rgba(233, 69, 96, 0.3);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
         .levi-container {
             position: relative;
-            width: 150px;
-            height: 200px;
-            margin: 20px auto;
+            width: 140px;
+            height: 180px;
+            margin: 0 auto;
         }
         
         .levi-image {
-            width: 150px;
-            height: 200px;
+            width: 100%;
+            height: 100%;
             border-radius: 15px;
             object-fit: cover;
             border: 2px solid #e94560;
-            box-shadow: 0 0 20px rgba(233, 69, 96, 0.3);
+            box-shadow: 0 0 30px rgba(233, 69, 96, 0.4);
         }
         
         /* Сердечки */
@@ -200,163 +101,248 @@
             position: absolute;
             color: #ff3366;
             font-size: 16px;
-            animation: float 3s ease-in-out infinite;
+            animation: float 4s ease-in-out infinite;
             opacity: 0;
+            text-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
         }
         
-        .heart1 { top: 30px; left: 10px; animation-delay: 0s; }
-        .heart2 { top: 50px; left: 130px; animation-delay: 1s; }
-        .heart3 { top: 80px; left: 5px; animation-delay: 2s; }
-        .heart4 { top: 100px; left: 140px; animation-delay: 0.5s; }
-        .heart5 { top: 130px; left: 20px; animation-delay: 1.5s; }
-        .heart6 { top: 150px; left: 120px; animation-delay: 0.8s; }
+        .heart1 { top: 20px; left: 10px; animation-delay: 0s; }
+        .heart2 { top: 40px; left: 120px; animation-delay: 1s; }
+        .heart3 { top: 70px; left: 5px; animation-delay: 2s; }
+        .heart4 { top: 90px; left: 130px; animation-delay: 0.5s; }
+        .heart5 { top: 120px; left: 20px; animation-delay: 1.5s; }
+        .heart6 { top: 140px; left: 110px; animation-delay: 0.8s; }
         
         @keyframes float {
-            0% { transform: translateY(0) scale(0.8); opacity: 0; }
+            0% { transform: translateY(0) scale(0.8) rotate(0deg); opacity: 0; }
             20% { opacity: 1; }
-            100% { transform: translateY(-80px) scale(1.2); opacity: 0; }
+            100% { transform: translateY(-100px) scale(1.2) rotate(180deg); opacity: 0; }
+        }
+
+        .levi-title {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #fff;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .levi-subtitle {
+            color: #e94560;
+            font-size: 14px;
+            margin-top: 5px;
         }
         
         /* Инструкция */
         .instruction {
-            background: #1a1a1a;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 15px 0;
-            font-size: 13px;
-            border: 1px solid #333;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 25px 0;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .instruction i {
+            color: #e94560;
+            margin-right: 8px;
         }
         
         /* Товары */
         .item {
-            background: #1a1a1a;
-            margin: 12px 0;
-            padding: 15px;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(15px);
+            margin: 16px 0;
+            padding: 20px;
+            border-radius: 15px;
             text-align: left;
-            border: 1px solid #333;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+            border-color: rgba(233, 69, 96, 0.3);
         }
         
         .item.taken {
-            background: #331111;
-            border-color: #ff4444;
-            opacity: 0.7;
+            background: rgba(233, 69, 96, 0.15);
+            border-color: #e94560;
+            opacity: 0.8;
+        }
+        
+        .item.taken::before {
+            content: '✓ ВЗЯТО';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: #e94560;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         
         .item.taken .item-title {
-            color: #ff8888;
+            color: #ff9999;
             text-decoration: line-through;
         }
         
         .item.taken .item-link {
-            background: #666;
+            background: #666 !important;
             pointer-events: none;
             opacity: 0.6;
+            cursor: not-allowed;
         }
         
         .item-title {
-            font-weight: bold;
-            margin-bottom: 8px;
-            font-size: 14px;
-            line-height: 1.3;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 15px;
+            line-height: 1.4;
+            color: #fff;
+            padding-right: 80px;
         }
         
         .item-category {
-            color: #888;
-            font-size: 11px;
-            margin-bottom: 10px;
+            color: #aaa;
+            font-size: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         
         .item-links {
             display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 10px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
         }
         
         .item-link {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             background: #0088cc;
             color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
             text-decoration: none;
-            font-size: 12px;
+            font-size: 13px;
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-weight: 500;
         }
         
         .wb-button {
-            background: #7b3fa1;
+            background: linear-gradient(135deg, #7b3fa1, #9a5bc5);
         }
         
         .ozon-button {
-            background: #005bff;
+            background: linear-gradient(135deg, #005bff, #3385ff);
         }
         
         .goldapple-button {
-            background: #d4af37;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
+            color: #333;
         }
         
         .take-btn {
-            background: #ff4444;
+            background: linear-gradient(135deg, #e94560, #ff6b8b);
             width: 100%;
             text-align: center;
-            margin-top: 5px;
-            font-weight: bold;
+            margin-top: 8px;
+            font-weight: 600;
+            font-size: 14px;
         }
         
         .take-btn:disabled {
-            background: #666;
+            background: #555;
             cursor: not-allowed;
+            transform: none !important;
         }
         
-        .item-link:hover, .take-btn:hover:not(:disabled) {
-            opacity: 0.9;
-            transform: scale(1.02);
+        .item-link:hover:not(:disabled), .take-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
         
         .footer {
-            margin: 30px 0;
-            color: #444;
+            margin: 40px 0 20px;
+            color: #666;
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        .footer i {
+            color: #e94560;
+            margin: 0 5px;
+        }
+
+        /* Статус синхронизации */
+        .sync-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 136, 204, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
             font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: fadeInOut 3s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; transform: translateY(10px); }
+            10%, 90% { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
-    <!-- Новая пиксельная кошка и мышка -->
-    <div class="cat-container">
-        <div class="pixel-cat"></div>
-        <div class="pixel-mouse"></div>
-    </div>
-    
     <div class="container">
         <!-- Леви с сердечками -->
-        <div class="levi-container">
-            <img src="https://i.ibb.co/0y80b3HR/levi.jpg" alt="Леви Аккерман" class="levi-image">
-            <div class="heart heart1">❤</div>
-            <div class="heart heart2">❤</div>
-            <div class="heart heart3">❤</div>
-            <div class="heart heart4">❤</div>
-            <div class="heart heart5">❤</div>
-            <div class="heart heart6">❤</div>
-        </div>
-        
-        <div style="margin-bottom: 15px; color: #ccc; font-size: 14px;">
-            Подарки не обязательно, у меня все есть! Это типа кошка мышка мне лень их переделывать.
+        <div class="levi-section">
+            <div class="levi-container">
+                <img src="https://i.ibb.co/0y80b3HR/levi.jpg" alt="Леви Аккерман" class="levi-image">
+                <div class="heart heart1">❤</div>
+                <div class="heart heart2">❤</div>
+                <div class="heart heart3">❤</div>
+                <div class="heart heart4">❤</div>
+                <div class="heart heart5">❤</div>
+                <div class="heart heart6">❤</div>
+            </div>
+            <div class="levi-title">Леви Аккерман и Тодзи</div>
+            <div class="levi-subtitle">Мой муж </div>
         </div>
         
         <!-- Инструкция -->
         <div class="instruction">
-            <strong>💡 Инструкция:</strong> Нажимай "ВЗЯТО" под товаром чтобы отметить его для всех пользователей
+            <i class="fas fa-info-circle"></i>
+            <strong>Если товар отмечен красным - его уже кто-то взял! Подарки не обязательно! </strong>
+            <br><span style="color: #ccc; font-size: 13px;">Все изменения видны всем пользователям</span>
         </div>
         
         <!-- Список товаров -->
         
-        < <!-- Косметика -->
+        <!-- Косметика -->
         <div class="item" data-id="1">
             <div class="item-title">SCHOLASTIC Harry Potter and the Prisoner of Azkaban (MinaLima Edition)</div>
             <div class="item-category">Книги</div>
@@ -592,50 +578,102 @@
             </div>
             <button class="item-link take-btn" onclick="takeItem(this)" data-id="26">ВЗЯТО</button>
         </div>
-
         <div class="footer">
-            I.L.B.W.C. сестра это харам 
+            I <i class="fas fa-heart"></i> B.W.C. сестра харам. ахахахах бах
+            <br><span style="color: #888;">Все взятые товары видны всем пользователям.</span>
         </div>
     </div>
 
     <script>
-        // Для реального проекта нужно использовать базу данных
-        const TAKEN_ITEMS_KEY = 'wishlist_taken_items';
+        // Имитация базы данных через localStorage (в реальном проекте - API)
+        const TAKEN_ITEMS_KEY = 'wishlist_global_taken_items';
         
+        // Функция для показа статуса синхронизации
+        function showSyncStatus(message) {
+            const status = document.createElement('div');
+            status.className = 'sync-status';
+            status.innerHTML = `<i class="fas fa-sync"></i> ${message}`;
+            document.body.appendChild(status);
+            
+            setTimeout(() => {
+                status.remove();
+            }, 3000);
+        }
+
+        // Сохранение состояния для всех пользователей
         function saveTakenState() {
             const takenItems = [];
             document.querySelectorAll('.item.taken').forEach(item => {
                 takenItems.push(item.getAttribute('data-id'));
             });
             localStorage.setItem(TAKEN_ITEMS_KEY, JSON.stringify(takenItems));
+            showSyncStatus('Синхронизировано');
         }
         
+        // Загрузка состояния
         function loadTakenState() {
             const takenItems = JSON.parse(localStorage.getItem(TAKEN_ITEMS_KEY) || '[]');
             takenItems.forEach(id => {
                 const item = document.querySelector(`.item[data-id="${id}"]`);
-                if (item) {
+                if (item && !item.classList.contains('taken')) {
                     item.classList.add('taken');
                     const button = item.querySelector('.take-btn');
-                    button.textContent = 'УЖЕ ВЗЯТО';
+                    button.innerHTML = '<i class="fas fa-check"></i> УЖЕ ВЗЯТО';
                     button.disabled = true;
                 }
             });
         }
         
+        // Функция взятия товара
         function takeItem(button) {
             const item = button.closest('.item');
             const itemId = item.getAttribute('data-id');
+            const itemName = item.querySelector('.item-title').textContent;
             
+            // Проверяем, не взят ли уже товар
+            if (item.classList.contains('taken')) {
+                showSyncStatus('Этот товар уже взят!');
+                return;
+            }
+            
+            // Помечаем как взятый
             item.classList.add('taken');
-            button.textContent = 'УЖЕ ВЗЯТО';
+            button.innerHTML = '<i class="fas fa-check"></i> УЖЕ ВЗЯТО';
             button.disabled = true;
             
+            // Сохраняем для всех
             saveTakenState();
+            showSyncStatus(`"${itemName.substring(0, 20)}..." отмечен как взятый`);
         }
         
-        document.addEventListener('DOMContentLoaded', loadTakenState);
-        setInterval(loadTakenState, 5000);
+        // Создаем частицы для фона
+        function createParticles() {
+            const particlesContainer = document.createElement('div');
+            particlesContainer.className = 'particles';
+            document.body.appendChild(particlesContainer);
+            
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = Math.random() * 100 + 50 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTakenState();
+            createParticles();
+            
+            // Авто-обновление каждые 3 секунды
+            setInterval(loadTakenState, 3000);
+            
+            showSyncStatus('Приложение загружено');
+        });
     </script>
 </body>
 </html>

@@ -4,108 +4,192 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мой Виш-Лист с Леви</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #1e1e1e;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             color: white;
             text-align: center;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
         
         h1 {
             color: #fff;
-            margin-bottom: 30px;
-        }
-
-        /* Контейнер для Леви */
-        .levi-container {
-            margin: 20px auto;
-            padding: 15px;
-            background: #2d2d2d;
-            border-radius: 15px;
-            display: inline-block;
-        }
-
-        /* Пиксельный Леви */
-        .pixel-levi {
-            width: 120px;
-            height: 160px;
-            margin: 0 auto;
-            position: relative;
-            image-rendering: pixelated;
-        }
-
-        .pixel-levi::before {
-            content: "";
-            position: absolute;
-            width: 120px;
-            height: 160px;
-            background: 
-                /* Волосы (черные) */
-                linear-gradient(#333 10px, transparent 10px) 40px 0px / 40px 10px no-repeat,
-                linear-gradient(#333 10px, transparent 10px) 30px 10px / 60px 10px no-repeat,
-                linear-gradient(#333 10px, transparent 10px) 20px 20px / 80px 10px no-repeat,
-                linear-gradient(#333 10px, transparent 10px) 20px 30px / 80px 10px no-repeat,
-                /* Лицо */
-                linear-gradient(#f9d2b6 20px, transparent 20px) 40px 40px / 40px 20px no-repeat,
-                /* Челка */
-                linear-gradient(#333 10px, transparent 10px) 30px 40px / 20px 10px no-repeat,
-                linear-gradient(#333 10px, transparent 10px) 30px 50px / 10px 10px no-repeat,
-                /* Глаза */
-                linear-gradient(#333 4px, transparent 4px) 50px 50px / 4px 4px no-repeat,
-                linear-gradient(#333 4px, transparent 4px) 66px 50px / 4px 4px no-repeat,
-                /* Рубашка */
-                linear-gradient(#8b0000 30px, transparent 30px) 35px 60px / 50px 30px no-repeat,
-                /* Рукава */
-                linear-gradient(#8b0000 20px, transparent 20px) 20px 60px / 20px 20px no-repeat,
-                linear-gradient(#8b0000 20px, transparent 20px) 80px 60px / 20px 20px no-repeat,
-                /* Шарф */
-                linear-gradient(#ddd 10px, transparent 10px) 40px 90px / 40px 10px no-repeat,
-                /* Ноги */
-                linear-gradient(#333 40px, transparent 40px) 45px 100px / 10px 40px no-repeat,
-                linear-gradient(#333 40px, transparent 40px) 65px 100px / 10px 40px no-repeat;
-        }
-
-        .item {
-            background: #2d2d2d;
-            margin-bottom: 15px;
-            padding: 15px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            border: 1px solid #444;
-            text-align: left;
-            position: relative;
+            margin-bottom: 10px;
+            font-size: 28px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
         
-        /* Стиль для взятых товаров */
+        .subtitle {
+            color: #ccc;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        /* Леви с анимацией */
+        .levi-section {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 25px auto;
+            border: 1px solid rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .levi-container {
+            position: relative;
+            width: 200px;
+            height: 300px;
+            margin: 0 auto;
+        }
+        
+        .levi-image {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #2d2d2d, #4a4a4a);
+            border-radius: 15px;
+            border: 2px solid #e94560;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #888;
+            overflow: hidden;
+        }
+        
+        .levi-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Анимированные сердечки */
+        .heart {
+            position: absolute;
+            color: #e94560;
+            font-size: 20px;
+            animation: floatUp 4s ease-in-out infinite;
+            opacity: 0;
+        }
+        
+        .heart1 { left: 20%; animation-delay: 0s; }
+        .heart2 { left: 50%; animation-delay: 1s; }
+        .heart3 { left: 80%; animation-delay: 2s; }
+        .heart4 { left: 30%; animation-delay: 0.5s; }
+        .heart5 { left: 70%; animation-delay: 1.5s; }
+        
+        @keyframes floatUp {
+            0% { 
+                transform: translateY(0) scale(0.5); 
+                opacity: 0; 
+            }
+            10% { 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateY(-100px) scale(1.2); 
+                opacity: 0; 
+            }
+        }
+        
+        .levi-title {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        .levi-subtitle {
+            color: #e94560;
+            font-size: 14px;
+        }
+
+        /* Подсказка */
+        .hint {
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid #e94560;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .hint i {
+            color: #e94560;
+            margin-right: 8px;
+        }
+
+        /* Товары */
+        .item {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            text-align: left;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        /* Взятые товары */
         .item.taken {
-            background: #1a3a1a;
-            border-color: #2d6b2d;
-            opacity: 0.7;
+            background: rgba(233, 69, 96, 0.15);
+            border-color: #e94560;
         }
         
         .taken-badge {
             position: absolute;
             top: 10px;
             right: 10px;
-            background: #ff4444;
+            background: #e94560;
             color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 11px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
         .item-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 8px;
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
             object-fit: cover;
             margin-right: 15px;
             flex-shrink: 0;
+            background: linear-gradient(45deg, #333, #555);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 24px;
         }
         
         .item-content {
@@ -115,14 +199,16 @@
         .item-title {
             font-weight: bold;
             color: #fff;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-size: 16px;
+            line-height: 1.3;
         }
         
         .item-description {
             color: #ccc;
             font-size: 14px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            line-height: 1.4;
         }
         
         .item-links {
@@ -135,277 +221,228 @@
             background-color: #0088cc;
             color: white;
             border: none;
-            padding: 6px 12px;
-            border-radius: 5px;
+            padding: 8px 15px;
+            border-radius: 8px;
             cursor: pointer;
             text-decoration: none;
-            font-size: 12px;
-            display: inline-block;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .item-button:hover {
+            transform: scale(1.05);
         }
 
         .wb-button {
-            background-color: #7b3fa1;
+            background: linear-gradient(135deg, #7b3fa1, #9a5bc5);
         }
         
         .ozon-button {
-            background-color: #005bff;
+            background: linear-gradient(135deg, #005bff, #3385ff);
         }
         
         .goldapple-button {
-            background-color: #d4af37;
-        }
-
-        .signature {
-            margin-top: 20px;
-            color: #888;
-            font-size: 12px;
+            background: linear-gradient(135deg, #d4af37, #f4d03f);
         }
         
-        .instructions {
-            background: #2d2d2d;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            text-align: left;
+        .other-button {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        /* Футер */
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            color: #888;
             font-size: 14px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .footer-text {
+            font-style: italic;
+            margin-top: 10px;
+            color: #e94560;
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .item {
+            animation: fadeIn 0.5s ease-out;
         }
     </style>
 </head>
 <body>
-    <h1>🗡️ Мой Виш-Лист</h1>
+    <div class="container">
+        <h1>🗡️ Мой Виш-Лист</h1>
+        <div class="subtitle">Под наблюдением капитана Леви</div>
 
-    <!-- Пиксельный Леви -->
-    <div class="levi-container">
-        <div class="pixel-levi"></div>
-        <div style="margin-top: 10px; color: #ccc;">Капитан Леви следит за порядком</div>
-    </div>
+        <!-- Леви с анимацией -->
+        <div class="levi-section">
+            <div class="levi-container">
+                <div class="levi-image">
+                    <img src="https://i.ibb.co/0Q7yL2y/levi.jpg" alt="Леви Аккерман">
+                </div>
+                <!-- Анимированные сердечки -->
+                <div class="heart heart1"><i class="fas fa-heart"></i></div>
+                <div class="heart heart2"><i class="fas fa-heart"></i></div>
+                <div class="heart heart3"><i class="fas fa-heart"></i></div>
+                <div class="heart heart4"><i class="fas fa-heart"></i></div>
+                <div class="heart heart5"><i class="fas fa-heart"></i></div>
+            </div>
+            <div class="levi-title">Леви Аккерман</div>
+            <div class="levi-subtitle">Раздаёт сердечки и следит за порядком</div>
+        </div>
 
-    <div class="instructions">
-        <strong>💡 Как пользоваться:</strong><br>
-        • Если товар уже кто-то взял - он будет с красной пометкой "ВЗЯТО"<br>
-        • Чтобы отметить товар как взятый - просто добавь класс "taken" к блоку с классом "item"
-    </div>
+        <!-- Подсказка -->
+        <div class="hint">
+            <i class="fas fa-lightbulb"></i>
+            <strong>Подсказка:</strong> Товары отмеченные красным уже заняты! Нажимай на кнопки чтобы перейти к покупке.
+        </div>
 
-    <!-- ТВОИ ТОВАРЫ -->
+        <!-- ТВОИ ТОВАРЫ -->
 
-    <!-- КНИГИ -->
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">SCHOLASTIC Harry Potter and the Prisoner of Azkaban (MinaLima Edition)</div>
-            <div class="item-description">Книга Гарри Поттер с иллюстрациями MinaLima</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/206846864/detail.aspx?size=332060339" class="item-button wb-button" target="_blank">Wildberries</a>
+        <!-- Пример ВЗЯТОГО товара -->
+        <div class="item taken">
+            <div class="taken-badge">
+                <i class="fas fa-check"></i> ВЗЯТО
+            </div>
+            <div class="item-image">📚</div>
+            <div class="item-content">
+                <div class="item-title">Книга "Атака Титанов"</div>
+                <div class="item-description">Коллекционное издание</div>
+                <div class="item-links">
+                    <a href="#" class="item-button wb-button">
+                        <i class="fas fa-shopping-bag"></i> WB
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">AXIS-Y Сыворотка для лица осветляющая против пигментации</div>
-            <div class="item-description">Корейская сыворотка для осветления кожи</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/247189788/detail.aspx?size=387243151" class="item-button wb-button" target="_blank">Wildberries</a>
+        <!-- Новые товары -->
+
+        <!-- SOL DE JANEIRO -->
+        <div class="item">
+            <div class="item-image">🌟</div>
+            <div class="item-content">
+                <div class="item-title">SOL DE JANEIRO › Набор средство по уходу за телом Delícia Drench Jet Set</div>
+                <div class="item-description">Роскошный набор для ухода за телом</div>
+                <div class="item-links">
+                    <a href="https://www.wildberries.ru/catalog/MPL393662/detail.aspx" class="item-button wb-button" target="_blank">
+                        <i class="fas fa-shopping-bag"></i> Wildberries
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Round Lab Увлажняющий крем для лица с берёзовым соком</div>
-            <div class="item-description">Увлажняющий крем с березовым соком</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/213410093/detail.aspx?size=340930617" class="item-button wb-button" target="_blank">Wildberries</a>
+        <!-- DIOR -->
+        <div class="item">
+            <div class="item-image">💄</div>
+            <div class="item-content">
+                <div class="item-title">DIOR diorshow 5 couleurs</div>
+                <div class="item-description">Палетка теней для век DIOR</div>
+                <div class="item-links">
+                    <a href="https://goldapple.ru/19000199697-diorshow-5-couleurs" class="item-button goldapple-button" target="_blank">
+                        <i class="fas fa-gem"></i> Gold Apple
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Round Lab Питательная сыворотка с соей антивозрастная</div>
-            <div class="item-description">Антивозрастная сыворотка с соей</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/212962091/detail.aspx?size=340393848" class="item-button wb-button" target="_blank">Wildberries</a>
+        <!-- PAYOT 1 -->
+        <div class="item">
+            <div class="item-image">🎁</div>
+            <div class="item-content">
+                <div class="item-title">PAYOT calendrier de l'avent</div>
+                <div class="item-description">Адвент-календарь PAYOT</div>
+                <div class="item-links">
+                    <a href="https://goldapple.ru/19000324907-calendrier-de-l-avent" class="item-button goldapple-button" target="_blank">
+                        <i class="fas fa-gem"></i> Gold Apple
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Round Lab Солнцезащитный крем стик для лица</div>
-            <div class="item-description">Солнцезащитный стик</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/332727803/detail.aspx?size=497795807" class="item-button wb-button" target="_blank">Wildberries</a>
+        <!-- GIVENCHY -->
+        <div class="item">
+            <div class="item-image">💎</div>
+            <div class="item-content">
+                <div class="item-title">GIVENCHY prisme libre</div>
+                <div class="item-description">Рассыпчатая пудра GIVENCHY</div>
+                <div class="item-links">
+                    <a href="https://goldapple.ru/19000313343-prisme-libre" class="item-button goldapple-button" target="_blank">
+                        <i class="fas fa-gem"></i> Gold Apple
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Игра престолов. Цикл "Песнь льда и огня". Комплект 6 книг</div>
-            <div class="item-description">Полный комплект книг Игры Престолов</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/429114327/detail.aspx?size=610438937" class="item-button wb-button" target="_blank">Wildberries</a>
+        <!-- PAYOT 2 -->
+        <div class="item">
+            <div class="item-image">🎄</div>
+            <div class="item-content">
+                <div class="item-title">PAYOT calendrier de l'avent</div>
+                <div class="item-description">Адвент-календарь PAYOT (версия 2)</div>
+                <div class="item-links">
+                    <a href="https://goldapple.ru/19000450874-calendrier-de-l-avent" class="item-button goldapple-button" target="_blank">
+                        <i class="fas fa-gem"></i> Gold Apple
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Amazon Восстановленная Электронная книга Kindle 6" 8Gb с подсветкой</div>
-            <div class="item-description">Электронная книга Kindle</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/275151555/detail.aspx?size=424269770" class="item-button wb-button" target="_blank">Wildberries</a>
+        <!-- Старые товары -->
+
+        <div class="item">
+            <div class="item-image">📖</div>
+            <div class="item-content">
+                <div class="item-title">SCHOLASTIC Harry Potter and the Prisoner of Azkaban (MinaLima Edition)</div>
+                <div class="item-description">Книга Гарри Поттер с иллюстрациями MinaLima</div>
+                <div class="item-links">
+                    <a href="https://www.wildberries.ru/catalog/206846864/detail.aspx?size=332060339" class="item-button wb-button" target="_blank">
+                        <i class="fas fa-shopping-bag"></i> Wildberries
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">AXIS-Y Лимитированный подарочный набор бестселлеров бренда</div>
-            <div class="item-description">Подарочный набор Axis-Y</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/306440040/detail.aspx?size=464717163" class="item-button wb-button" target="_blank">Wildberries</a>
+        <div class="item">
+            <div class="item-image">🧴</div>
+            <div class="item-content">
+                <div class="item-title">AXIS-Y Сыворотка для лица осветляющая против пигментации</div>
+                <div class="item-description">Корейская сыворотка для осветления кожи</div>
+                <div class="item-links">
+                    <a href="https://www.wildberries.ru/catalog/247189788/detail.aspx?size=387243151" class="item-button wb-button" target="_blank">
+                        <i class="fas fa-shopping-bag"></i> Wildberries
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- ПРИМЕР ВЗЯТОГО ТОВАРА -->
-    <div class="item taken">
-        <div class="taken-badge">ВЗЯТО</div>
-        <div class="item-content">
-            <div class="item-title">Funko Леви Аккерман брелок (Levi Ackerman)</div>
-            <div class="item-description">Брелок Леви Аккерман</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/57430350/detail.aspx?size=104135902" class="item-button wb-button" target="_blank">Wildberries</a>
+        <div class="item">
+            <div class="item-image">💧</div>
+            <div class="item-content">
+                <div class="item-title">Round Lab Увлажняющий крем для лица с берёзовым соком</div>
+                <div class="item-description">Увлажняющий крем с березовым соком</div>
+                <div class="item-links">
+                    <a href="https://www.wildberries.ru/catalog/213410093/detail.aspx?size=340930617" class="item-button wb-button" target="_blank">
+                        <i class="fas fa-shopping-bag"></i> Wildberries
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Черный обелиск</div>
-            <div class="item-description">Книга Эрих Мария Ремарк</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/2281424/detail.aspx?size=9567703" class="item-button wb-button" target="_blank">Wildberries</a>
-            </div>
+        <!-- Футер -->
+        <div class="footer">
+            <div>Сделано с <i class="fas fa-heart" style="color: #e94560;"></i> для истинных фанатов</div>
+            <div class="footer-text">"Под звёздным небом, среди теней ночи, наши желания становятся реальностью..."</div>
         </div>
     </div>
-
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Дух мадам Краул и другие таинственные истории</div>
-            <div class="item-description">Сборник мистических историй</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/420190642/detail.aspx?size=600656832" class="item-button wb-button" target="_blank">Wildberries</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Госпожа Бовари</div>
-            <div class="item-description">Классический роман</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/31299053/detail.aspx?size=68237593" class="item-button wb-button" target="_blank">Wildberries</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">К югу от границы, на запад от солнца. Х. Мураками</div>
-            <div class="item-description">Роман Мураками</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/5893520/detail.aspx?size=21038460" class="item-button wb-button" target="_blank">Wildberries</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Страна Чудес без тормозов и Конец Света</div>
-            <div class="item-description">Роман Мураками</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/5840988/detail.aspx?size=20884523" class="item-button wb-button" target="_blank">Wildberries</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Мужчины без женщин</div>
-            <div class="item-description">Сборник рассказов Мураками</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/13944585/detail.aspx?size=41829183" class="item-button wb-button" target="_blank">Wildberries</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Удушье</div>
-            <div class="item-description">Книга Чака Паланика</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/40409265/detail.aspx?size=81603658" class="item-button wb-button" target="_blank">Wildberries</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Собор Парижской Богоматери</div>
-            <div class="item-description">Классический роман Виктора Гюго</div>
-            <div class="item-links">
-                <a href="https://www.wildberries.ru/catalog/119966641/detail.aspx?size=212548424" class="item-button wb-button" target="_blank">Wildberries</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- OZON ССЫЛКИ -->
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Товар OZON 1</div>
-            <div class="item-description">Ссылка на OZON</div>
-            <div class="item-links">
-                <a href="https://ozon.ru/t/Ltogmno" class="item-button ozon-button" target="_blank">OZON</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Товар OZON 2</div>
-            <div class="item-description">Ссылка на OZON</div>
-            <div class="item-links">
-                <a href="https://ozon.ru/t/HUdFaOS" class="item-button ozon-button" target="_blank">OZON</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">Товар OZON 3</div>
-            <div class="item-description">Ссылка на OZON</div>
-            <div class="item-links">
-                <a href="https://ozon.ru/t/WN2Pw75" class="item-button ozon-button" target="_blank">OZON</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- GOLD APPLE -->
-    <div class="item">
-        <div class="item-content">
-            <div class="item-title">SKIN 1004 Madagascar Centella Tone Brightening Capsule Ampoule</div>
-            <div class="item-description">Осветляющая ампула</div>
-            <div class="item-links">
-                <a href="https://goldapple.ru/19000137120-madagascar-centella-tone-brightening-capsule-ampoule" class="item-button goldapple-button" target="_blank">Gold Apple</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="signature">
-        Сделано с ❤️ | Чтобы отметить товар как "ВЗЯТО" - добавь класс "taken" к товару
-    </div>
-
 </body>
 </html>

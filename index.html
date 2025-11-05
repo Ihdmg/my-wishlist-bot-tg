@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Виш-Лист с Леви</title>
+    <title>Виш-Лист Леви</title>
     <style>
         * {
             margin: 0;
@@ -21,69 +21,155 @@
             overflow-x: hidden;
         }
         
-        /* Пиксельная кошка и мышка */
+        /* === НАЧАЛО НОВОЙ КОШКИ И МЫШКИ === */
         .cat-container {
             position: fixed;
-            top: 10px;
-            left: 10px;
+            top: 0;
+            left: 0;
             z-index: 1000;
             pointer-events: none;
+            width: 100vw;
+            height: 100vh;
         }
-        
+
         .pixel-cat {
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 30px;
             image-rendering: pixelated;
             position: absolute;
             background: 
-                /* Тело кошки - оранжевый */
-                linear-gradient(#ff8c00 16px, transparent 16px) 8px 8px / 16px 16px no-repeat,
+                /* Тело кошки - оранжевый с растяжением */
+                linear-gradient(#ff8c00 12px, transparent 12px) 10px 8px / 20px 12px no-repeat,
                 /* Голова */
-                linear-gradient(#ff8c00 8px, transparent 8px) 12px 4px / 8px 8px no-repeat,
+                linear-gradient(#ff8c00 10px, transparent 10px) 15px 2px / 10px 10px no-repeat,
                 /* Уши */
-                linear-gradient(#ff8c00 4px, transparent 4px) 10px 2px / 4px 4px no-repeat,
-                linear-gradient(#ff8c00 4px, transparent 4px) 18px 2px / 4px 4px no-repeat,
-                /* Глаза */
-                linear-gradient(#000 2px, transparent 2px) 14px 6px / 2px 2px no-repeat,
-                linear-gradient(#000 2px, transparent 2px) 16px 6px / 2px 2px no-repeat,
-                /* Хвост */
-                linear-gradient(#ff8c00 12px, transparent 12px) 0px 12px / 4px 12px no-repeat;
-            animation: catMove 20s linear infinite;
+                linear-gradient(#ff8c00 6px, transparent 6px) 12px 0px / 6px 6px no-repeat,
+                linear-gradient(#ff8c00 6px, transparent 6px) 22px 0px / 6px 6px no-repeat,
+                /* Глаза - злые когда бежит */
+                linear-gradient(#ff0000 3px, transparent 3px) 17px 5px / 3px 3px no-repeat,
+                linear-gradient(#ff0000 3px, transparent 3px) 20px 5px / 3px 3px no-repeat,
+                /* Лапы бегущие */
+                linear-gradient(#ff8c00 8px, transparent 8px) 5px 18px / 6px 8px no-repeat,
+                linear-gradient(#ff8c00 8px, transparent 8px) 29px 18px / 6px 8px no-repeat;
+            animation: catChase 15s ease-in-out infinite;
+            transform-origin: center;
         }
-        
+
         .pixel-mouse {
-            width: 16px;
-            height: 16px;
+            width: 20px;
+            height: 15px;
             image-rendering: pixelated;
             position: absolute;
             background: 
                 /* Тело мышки - серый */
-                linear-gradient(#888 8px, transparent 8px) 4px 4px / 8px 8px no-repeat,
-                /* Голова */
-                linear-gradient(#888 4px, transparent 4px) 6px 2px / 4px 4px no-repeat,
-                /* Уши */
-                linear-gradient(#888 2px, transparent 2px) 5px 1px / 2px 2px no-repeat,
-                linear-gradient(#888 2px, transparent 2px) 9px 1px / 2px 2px no-repeat,
-                /* Хвост */
-                linear-gradient(#888 6px, transparent 6px) 0px 8px / 2px 6px no-repeat;
-            animation: mouseMove 20s linear infinite;
+                linear-gradient(#666 8px, transparent 8px) 6px 4px / 8px 8px no-repeat,
+                /* Голова испуганная */
+                linear-gradient(#666 6px, transparent 6px) 8px 0px / 6px 6px no-repeat,
+                /* Уши торчком */
+                linear-gradient(#666 3px, transparent 3px) 7px -1px / 3px 3px no-repeat,
+                linear-gradient(#666 3px, transparent 3px) 12px -1px / 3px 3px no-repeat,
+                /* Глаза испуганные */
+                linear-gradient(#000 2px, transparent 2px) 9px 2px / 2px 2px no-repeat,
+                linear-gradient(#000 2px, transparent 2px) 11px 2px / 2px 2px no-repeat,
+                /* Хвост дрожащий */
+                linear-gradient(#666 10px, transparent 10px) 0px 6px / 2px 10px no-repeat;
+            animation: mouseRun 15s ease-in-out infinite;
         }
-        
-        @keyframes catMove {
-            0% { transform: translate(0, 0); }
-            25% { transform: translate(calc(100vw - 50px), 50px); }
-            50% { transform: translate(calc(100vw - 50px), calc(100vh - 100px)); }
-            75% { transform: translate(0, calc(100vh - 100px)); }
-            100% { transform: translate(0, 0); }
+
+        @keyframes catChase {
+            0% { 
+                transform: translate(0, 0) scaleX(1);
+                background-size: 20px 12px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 6px 8px, 6px 8px;
+            }
+            10% { 
+                transform: translate(100px, 50px) scaleX(1);
+                background-size: 25px 8px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 8px 6px, 8px 6px;
+            }
+            20% { 
+                transform: translate(200px, 100px) scaleX(1);
+                background-size: 20px 12px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 6px 8px, 6px 8px;
+            }
+            30% { 
+                transform: translate(calc(100vw - 100px), 150px) scaleX(-1);
+                background-size: 25px 8px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 8px 6px, 8px 6px;
+            }
+            40% { 
+                transform: translate(calc(100vw - 200px), 200px) scaleX(-1);
+                background-size: 20px 12px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 6px 8px, 6px 8px;
+            }
+            50% { 
+                transform: translate(calc(100vw - 100px), calc(100vh - 100px)) scaleX(-1);
+                background-size: 25px 8px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 8px 6px, 8px 6px;
+            }
+            60% { 
+                transform: translate(200px, calc(100vh - 150px)) scaleX(1);
+                background-size: 20px 12px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 6px 8px, 6px 8px;
+            }
+            70% { 
+                transform: translate(100px, calc(100vh - 200px)) scaleX(1);
+                background-size: 25px 8px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 8px 6px, 8px 6px;
+            }
+            80% { 
+                transform: translate(50px, 100px) scaleX(1);
+                background-size: 20px 12px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 6px 8px, 6px 8px;
+            }
+            90% { 
+                transform: translate(150px, 50px) scaleX(1);
+                background-size: 25px 8px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 8px 6px, 8px 6px;
+            }
+            100% { 
+                transform: translate(0, 0) scaleX(1);
+                background-size: 20px 12px, 10px 10px, 6px 6px, 6px 6px, 3px 3px, 3px 3px, 6px 8px, 6px 8px;
+            }
         }
-        
-        @keyframes mouseMove {
-            0% { transform: translate(20px, 20px); }
-            25% { transform: translate(calc(100vw - 70px), 70px); }
-            50% { transform: translate(calc(100vw - 70px), calc(100vh - 120px)); }
-            75% { transform: translate(20px, calc(100vh - 120px)); }
-            100% { transform: translate(20px, 20px); }
+
+        @keyframes mouseRun {
+            0% { 
+                transform: translate(30px, 30px) scaleX(1);
+                opacity: 1;
+            }
+            15% { 
+                transform: translate(130px, 80px) scaleX(1);
+                opacity: 0.8;
+            }
+            25% { 
+                transform: translate(230px, 130px) scaleX(1);
+                opacity: 1;
+            }
+            35% { 
+                transform: translate(calc(100vw - 130px), 180px) scaleX(-1);
+                opacity: 0.6;
+            }
+            45% { 
+                transform: translate(calc(100vw - 230px), 230px) scaleX(-1);
+                opacity: 1;
+            }
+            55% { 
+                transform: translate(calc(100vw - 130px), calc(100vh - 130px)) scaleX(-1);
+                opacity: 0.7;
+            }
+            65% { 
+                transform: translate(230px, calc(100vh - 180px)) scaleX(1);
+                opacity: 1;
+            }
+            75% { 
+                transform: translate(130px, calc(100vh - 230px)) scaleX(1);
+                opacity: 0.5;
+            }
+            85% { 
+                transform: translate(80px, 130px) scaleX(1);
+                opacity: 1;
+            }
+            95% { 
+                transform: translate(180px, 80px) scaleX(1);
+                opacity: 0.8;
+            }
+            100% { 
+                transform: translate(30px, 30px) scaleX(1);
+                opacity: 1;
+            }
         }
+        /* === КОНЕЦ НОВОЙ КОШКИ И МЫШКИ === */
         
         .container {
             max-width: 400px;
@@ -241,7 +327,7 @@
     </style>
 </head>
 <body>
-    <!-- Пиксельная кошка и мышка -->
+    <!-- Новая пиксельная кошка и мышка -->
     <div class="cat-container">
         <div class="pixel-cat"></div>
         <div class="pixel-mouse"></div>
@@ -260,7 +346,7 @@
         </div>
         
         <div style="margin-bottom: 15px; color: #ccc; font-size: 14px;">
-            Подарки не обязательно, мама ама криминал, как называется нитка торч.. айайай сестра харам
+            Подарки не обязательно, у меня все есть!
         </div>
         
         <!-- Инструкция -->
@@ -270,7 +356,7 @@
         
         <!-- Список товаров -->
         
-        <!-- Косметика -->
+        < <!-- Косметика -->
         <div class="item" data-id="1">
             <div class="item-title">SCHOLASTIC Harry Potter and the Prisoner of Azkaban (MinaLima Edition)</div>
             <div class="item-category">Книги</div>
@@ -508,16 +594,14 @@
         </div>
 
         <div class="footer">
-            Отослала леви надеюсь код хуйня пхпхпхп бах АхАхАх
+            I.L.B.W.C. сестра это харам 
         </div>
     </div>
 
     <script>
         // Для реального проекта нужно использовать базу данных
-        // Это временное решение для демонстрации
         const TAKEN_ITEMS_KEY = 'wishlist_taken_items';
         
-        // Сохранение состояния для всех пользователей (в реальном проекте - API запрос)
         function saveTakenState() {
             const takenItems = [];
             document.querySelectorAll('.item.taken').forEach(item => {
@@ -548,15 +632,9 @@
             button.disabled = true;
             
             saveTakenState();
-            
-            // В реальном проекте здесь должен быть fetch запрос к API
-            // fetch('/api/take-item', { method: 'POST', body: JSON.stringify({itemId}) });
         }
         
-        // Загружаем состояние при загрузке страницы
         document.addEventListener('DOMContentLoaded', loadTakenState);
-        
-        // Обновляем состояние каждые 5 секунд (в реальном проекте - WebSocket)
         setInterval(loadTakenState, 5000);
     </script>
 </body>
